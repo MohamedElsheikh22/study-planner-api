@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'subjects',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -128,11 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_RAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication'
-    )
+    ),
+    'DEFAULT_FILTERBACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # يفضل شغال يوم كامل
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-}

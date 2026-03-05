@@ -4,6 +4,7 @@ from .models import Subject, StudySession
 from .serializers import SubjectSerializer, StudySessionSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 # Create your views here.
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -19,6 +20,8 @@ class SubjectViewSet(viewsets.ModelViewSet):
 class StudySessionViewSet(viewsets.ModelViewSet):
     serializer_class = StudySessionSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['subject']
 
     def get_queryset(self):
         return StudySession.objects.filter(subject__user=self.request.user)
@@ -30,5 +33,4 @@ class StudySessionViewSet(viewsets.ModelViewSet):
         session.save()
         return Response({'status': 'session marked as completed'})
     
-
 

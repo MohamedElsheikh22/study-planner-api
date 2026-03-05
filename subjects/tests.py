@@ -62,3 +62,22 @@ class StudySessionTests(APITestCase):
         )
         response = self.client.patch(f'/api/sessions/{session.id}/complete/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_filter_sessions_by_sbuject(self):
+        subject2 = Subject.objects.create(name='Seience', user=self.user)
+        StudySession.objects.create(
+            subject=self.subject,
+            title='Chapter 1',
+            date=date.today(),
+            duration=60
+        )
+        StudySession.objects.create(
+            subject=subject2,
+            title='Chapter2',
+            date=date.today(),
+            duration=60
+        )
+        response = self.client.get(f'/api/sessions/?subject={self.subject.id}')
+        self.assertEqual(len(response.data), 1)
+
+
